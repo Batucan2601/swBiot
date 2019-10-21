@@ -50,7 +50,7 @@
 
     <url_expr> ::= '<chars>'
 
-    <sensor_expr> ::= TEMP(<arithmetic_expr>) | HUMIDITY(<arithmetic_expr>) | AIRPRES(<arithmetic_expr>) | AIRQUAL(<arithmetic_expr>) | LIGHT(<arithmetic_expr>) | SOUND(<arithmetic_expr>)
+    <sensor_expr> ::= TEMP(<arithmetic_expr>) | HUM(<arithmetic_expr>) | AIRPRES(<arithmetic_expr>) | AIRQUAL(<arithmetic_expr>) | LIGHT(<arithmetic_expr>) | SOUND(<arithmetic_expr>)
 
     <literal_expr> ::= <bool_literal> | <integer_literal> | <float_literal> | <string_literal>
         <bool_literal> ::= true | false
