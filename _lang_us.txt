@@ -1,0 +1,22 @@
+
+
+
+URL url = URL("www.pornhub.io")
+SWTCH sw = SWTCH(2)
+INT i = 0
+
+i >> url # URL e intefer gonder
+
+nonstop i << url # URLden veri almayi bekle
+
+
+# okeys
+
+
+SENSOR sensor
+SENSOR sensor << HUMIDITY[3]
+sensor << HUMIDITY[2]
+
+ON >> SWITCH[5]
+
+
