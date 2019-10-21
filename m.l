@@ -4,18 +4,38 @@
     int number;
 %}
 
+digit  [0-9]
+sign   [-+]
 letter                  [A-Za-z]+
-digit                   [0-9]+
+string 			        "\""[^\"]*"\""
 s                       [ \t]*
-urlstring               "\""[^\"]*"\""
-
+urlstring               "'"[^']*"'"
 variable                {letter}({letter}|{digit})*
 operator                "+"|"-"
+type                    "INT"|"BOOL"|"SENSOR"|"URL"|"FLOAT"|"STRING"
+switches                "SW1"|"SW2"|"SW3"|"SW4"|"SW5"|"SW6"|"SW7"|"SW8"|"SW9"|"SW10"
+
 %%
-{variable}{s}"="{s}{variable}{s}{operator}{s}{variable}{s}";"       {printf("This is a valid expression!");}
-{urlstring}                                                         {printf("This is a valid string literal");}
-"URL("{urlstring}")"                                                {printf("This is a valid url constructor");}
-"URL"                                                               {printf("This is a valid url type");}z
+{urlstring}                         {printf("URLSTRING");}
+{switches}                          {printf("SWITCH");}
+{type}                              {printf("TYPE");}
+"if"                                {printf("IF");}
+"else"                              {printf("ELSE");}
+"for"                               {printf("FOR");}
+"while"                             {printf("WHILE");}
+{sign}?{digit}+					    {printf("INT");}
+{sign}?{digit}*(\.)?{digit}+    	{printf(" FLOAT ");}
+")"								    {printf(" RP ");}
+"("                          		{printf(" LP ");}
+"{"                                 {printf(" LSB ");}
+"}"                                 {printf(" RSP ");}
+"+"								    {printf(" + ");}
+"-"								    {printf(" - ");}
+"*"								    {printf(" * ");}
+"/"								    {printf(" / ");}
+"="								    {printf(" = ");}
+{string} 						    {printf(" String ");}	
+
 %%
 
 int main() {
