@@ -30,12 +30,16 @@
                     | if (<logic_expr>) {<stmt_list>}
    
 <loop_stmt> ::= <while_stmt> | <for_stmt> 
-    <while_stmt> ::= while (<logic_expression>) <stmt> |  while (<logic_expression>) {<stmt_list>} 
-    <for_stmt> ::= for (<init_stmt>?; <logic_expression>?; <arithmetic_expr>;) <stmt> 
-                  |for (<init_stmt>?; <logic_expression>?; <arithmetic_expr>;) {<stmt_list>}
+    <while_stmt> ::= while (<logic_expr>) <stmt> |  while (<logic_expr>) {<stmt_list>} 
+    <for_stmt> ::= for (<init_stmt>?; <logic_expr>?; <arithmetic_expr>;) <stmt> 
+                  |for (<init_stmt>?; <logic_expr>?; <arithmetic_expr>;) {<stmt_list>}
 
 
 <expr> ::= <logic_expr>| <arithmetic_expr>| <url_expr> | <sensor_expr> | <literal_expr> | <time_expr>
+    <logic_expr> ::= <logic_operand> <binlog_operator> <logic_operand> | <unilog_operator>? <logic_operand>
+    <binlog_operator> ::=  == | & | "|"
+    <unilog_operator> ::=  !
+    <logic_operand>  ::= <logic_expr> | <identifier> | <bool_literal>
     <arithmetic_expr> ::= <art_operand> <add_sub> <term_operand> | <term_operand>
     <term_operand> ::= <term_operand> <mul_div> <factor_operand> | <factor_operand>
     <factor_operand> ::= (<arithmetic_expr>) | <identifier>
@@ -64,5 +68,5 @@
 <identifier> ::= <letter> <digits>?
 
 
-<type> ::= INT | BOOL | FLOAT | URL | SENSOR 
+<type> ::= INT | BOOL | FLOAT | URL | SENSOR | STRING
 <switch_type> ::= SW1 | SW2 | SW3 | SW4 | SW5 | SW6 | SW7 | SW8 | SW9 | SW10
