@@ -94,8 +94,8 @@ output_oper                         ">>"
 {minus}								{printf(" MINUS ");}
 {asterix}							{printf(" MUL ");}
 {division}						    {printf(" DIV ");}
-{equal}								{printf(" EQ ");}
-{colon}                             {printf(" COLON ");}
+{equal}								{printf(" = ");}
+{colon}                             {printf(" SEMICOLON ");}
 
 {identifier}                        {printf(" IDENTIFIER<"); ECHO; printf(">");}
 {space}                             {;}
