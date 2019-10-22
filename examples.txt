@@ -9,7 +9,7 @@ These are the most simple examples. Let's get to our new examples
 
 1 - SENSOR sensorTest;  // created a sensor named sensorTest which will return us       SENSOR IDENTIFIER SEMICOLON
 2 - sensorTest << HUM(5);   // now we assinged the value of the sensorTest to an external sensor named HUM(5) which is the fifth humidity sensor in this case 
-this expression will return us      IDENTIFIER << HUM( integer literal ) SEMICOLON     // buraya bakin
+this expression will return us      IDENTIFIER << HUM LP integer literal RP SEMICOLON     // buraya bakin
 // we can only assign the SENSOR variable via using operator "<<" in order to reduce complication 
 
 The switch coponent is similiar in terms of used tokens.
@@ -17,3 +17,6 @@ The switch coponent is similiar in terms of used tokens.
 1 - SW1 >> true; // now, since our hardware only got 10 switches, we predefined 10 switches in our language sucha as SW1 , SW2 ... SW10.
 // with this expression we assigned our first switch to 1 or true.  Which will create the token     SWITCH >> BOOL SEMICOLON
 
+1 - URL urlTest; // created an URL Variable which will return       URL IDENTIFIER SEMICOLON
+2 - urlTest = 'example HTML code';   // we assigned our URL variable to an html using  ' . Our ' is reserved just for assigning HTMLs for our URL type 
+// the second sentence will return us       IDENTIFIER = URLSTRING SEMICOLON  
