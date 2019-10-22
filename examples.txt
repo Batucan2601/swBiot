@@ -1,0 +1,19 @@
+Hello there, welcome to our SWBIOT tutorial, let's start with fundenmetnals
+
+our conventional data types are regular to the c++ and java except, we use uppercases in order to Differentiate 
+
+1 - INT a; // created an integer named a,will return    TYPE IDENTIFIER SEMICOLON
+2 - INT x = 102; // created an integer named b, and will return   TYPE IDENTIFIER = EXP SEMICOLON
+
+These are the most simple examples. Let's get to our new examples
+
+1 - SENSOR sensorTest;  // created a sensor named sensorTest which will return us       SENSOR IDENTIFIER SEMICOLON
+2 - sensorTest << HUM(5);   // now we assinged the value of the sensorTest to an external sensor named HUM(5) which is the fifth humidity sensor in this case 
+this expression will return us      IDENTIFIER << HUM( integer literal ) SEMICOLON     // buraya bakin
+// we can only assign the SENSOR variable via using operator "<<" in order to reduce complication 
+
+The switch coponent is similiar in terms of used tokens.
+
+1 - SW1 >> true; // now, since our hardware only got 10 switches, we predefined 10 switches in our language sucha as SW1 , SW2 ... SW10.
+// with this expression we assigned our first switch to 1 or true.  Which will create the token     SWITCH >> BOOL SEMICOLON
+

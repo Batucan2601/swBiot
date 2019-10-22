@@ -990,12 +990,12 @@ YY_RULE_SETUP
 case 33:
 YY_RULE_SETUP
 #line 97 "m.l"
-{printf(" EQ ");}
+{printf(" = ");}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 98 "m.l"
-{printf(" COLON ");}
+{printf(" SEMICOLON ");}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
