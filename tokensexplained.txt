@@ -20,3 +20,35 @@
 <loop_stmt> : for loop statements such as while and for.
 <while_stmt> : while statement like in fundemental languages.
 <for_stmt> : for statement like in fundemental languages.
+<expr> : means expression ( has return value ).
+<logic_expr> : for logic type expressions.
+<binlog_operator> : for logical operations between variables.
+<unilog_operator> :  for logical operaitons to the same variable.
+<logic_operand> : expressions which returns true or false.
+<arithmetic_expr> : for expressions with arithmetic operators.
+<term_operand> : is an aritmhetic expression desgined for high priority such as multiply and divison.
+<factor_operand> : is an arithemtic expression designed for highest priority with paranthesis.
+<add_sub> : returns tokens + -.
+<mul_div> : returns tokens + -.
+<art_operand> : includes all artithmetics such as integers floats strings or identifiers of it.
+<url_expr> : all expresiions for spceial URL type.
+<sensor_expr> : all expresiion for special SENSOR type. 
+<literal_expr> : has non identifiers with return values such as INT , FLOAT  , BOOL , STRING
+<bool_literal> : returns BOOL tokens true and false
+<integer_literal> : returns INTEGER with 32 bit.
+<digits> : list of digits.
+<digit>  : each digit of the INTEGER token
+<float_literal> : returns a FLOAT token with 32 bits.
+<string_literal> : returns STRING token.
+<chars> : components of STRING.
+<letter> : 
+<sign> : returns + and - token.
+<time_expr> : returns special function time() which is for getting time unit.
+<func_call_expr> : expression for calling functions.
+<parameter_list> : list of parameters.
+<parameter> : identifiers passed to the functions.
+<identifier> : holder of types with use of <digits> and <letter>.
+<type> : specifiers of identifiers with returning tokens INT | BOOL | FLOAT | URL | SENSOR | STRING.
+<switch_type> : predefined switches which returns  SW1 | SW2 | SW3 | SW4 | SW5 | SW6 | SW7 | SW8 | SW9 | SW10. These are corresponding to the 10 switches in the hardware.
+
+
