@@ -1,0 +1,54 @@
+<program> : core of the program, every program starts with this token.
+<stmt_list> : list of the statements in the program.
+<stmt> : componnents of statment list.
+<matched_stmt> : a statement which has the same number of if and else's.
+<matched_stmt_list> : list of matched_stmt's.
+<unmatched_stmt> : a statement which has different number of if and else's.
+<unmatched_stmt_list> : list of unmatched_stmt's.
+<declaration_stmt> : a statment where you declare an identifier with a type or declare a function.
+<var_declaration_list> : list of declarations in terms of variables.
+<var_declaration> : specific declaration type of statements.
+<funct_declaration> : specific declaration type of functions.
+<assign_stmt> : statements for assigning using << >> = operator.
+<special_assign> : assignments for << >>.
+<input_assign> : input assignments via <<.
+<output_assign> : output assignemnt via >>.
+<conventional_assign> : assigning variable using = operator.
+<init_stmt> : statement for initialising statements.
+<matched_if_stmt> : an if statement when there will be equal if and else's in the statments.
+<unmatched_if_stmt> : an if statement when there will not be equal if and else's in the statments.
+<loop_stmt> : for loop statements such as while and for.
+<while_stmt> : while statement like in fundemental languages.
+<for_stmt> : for statement like in fundemental languages.
+<expr> : means expression ( has return value ).
+<logic_expr> : for logic type expressions.
+<binlog_operator> : for logical operations between variables.
+<unilog_operator> :  for logical operaitons to the same variable.
+<logic_operand> : expressions which returns true or false.
+<arithmetic_expr> : for expressions with arithmetic operators.
+<term_operand> : is an aritmhetic expression desgined for high priority such as multiply and divison.
+<factor_operand> : is an arithemtic expression designed for highest priority with paranthesis.
+<add_sub> : returns tokens + -.
+<mul_div> : returns tokens + -.
+<art_operand> : includes all artithmetics such as integers floats strings or identifiers of it.
+<url_expr> : all expresiions for spceial URL type.
+<sensor_expr> : all expresiion for special SENSOR type. 
+<literal_expr> : has non identifiers with return values such as INT , FLOAT  , BOOL , STRING
+<bool_literal> : returns BOOL tokens true and false
+<integer_literal> : returns INTEGER with 32 bit.
+<digits> : list of digits.
+<digit>  : each digit of the INTEGER token
+<float_literal> : returns a FLOAT token with 32 bits.
+<string_literal> : returns STRING token.
+<chars> : components of STRING.
+<letter> : 
+<sign> : returns + and - token.
+<time_expr> : returns special function time() which is for getting time unit.
+<func_call_expr> : expression for calling functions.
+<parameter_list> : list of parameters.
+<parameter> : identifiers passed to the functions.
+<identifier> : holder of types with use of <digits> and <letter>.
+<type> : specifiers of identifiers with returning tokens INT | BOOL | FLOAT | URL | SENSOR | STRING.
+<switch_type> : predefined switches which returns  SW1 | SW2 | SW3 | SW4 | SW5 | SW6 | SW7 | SW8 | SW9 | SW10. These are corresponding to the 10 switches in the hardware.
+
+
