@@ -80,11 +80,3 @@
 
 <type> ::= INT | BOOL | FLOAT | URL | SENSOR | STRING
 <switch_type> ::= SW1 | SW2 | SW3 | SW4 | SW5 | SW6 | SW7 | SW8 | SW9 | SW10
-
-///////////////////////////////////////////////////////////////////////////////////////////
-    can get changed bombarcik bak ve fikrini soyle 
-<literal_expr> ::= | <pointer_literal>
-<pointer_literal> ::= $
-<type> ::= | POINTER
-# $ = SW1 , $++ = SW2 
-//////////////////////////////////////////////////////////////////////////////////////////
