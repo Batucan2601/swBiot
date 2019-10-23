@@ -1,8 +1,28 @@
 %{
     #include <stdlib.h>
     #include <stdio.h>
+
+    //    /*
+    #define _AMGUARD 
+    // */
+
+    #ifdef _AMGUARD 
+        #define PRINT
+    #else  
+        #define TOKEN
+    #endif
+
+    #ifdef PRINT 
+        #define LOG(x): printf(x)
+    #else  
+        #define LOG(x): return x
+    #endif
+
+    #ifdef TOKEN 
+        #define LOG(x): return x
+    #endif
 %}
-space                               [ /t]+
+space                               [ /t/n]+
 digit                               [0-9]
 sign                                [-+]
 letter                              [A-Za-z]+?
@@ -10,7 +30,7 @@ letter                              [A-Za-z]+?
 string_literal 			            "\""[^\"]*"\""
 url_literal                         "'"[^']*"'"
 
-identifier                          {letter}({letter}|{digit})*
+identifier                          {letter}({letter}|{digit}|"_")*
 
 type                                "INT"|"BOOL"|"SENSOR"|"URL"|"FLOAT"|"STRING"
 switches                            "SW1"|"SW2"|"SW3"|"SW4"|"SW5"|"SW6"|"SW7"|"SW8"|"SW9"|"SW10"
@@ -19,8 +39,11 @@ sensors                             "HUM"|"TEMP"|"AIRPRES"|"AIRQUAL"|"LIGHT"|"SO
 float_literal                       {sign}?{digit}*(\.)?{digit}+
 int_literal                         {sign}?{digit}+
 
-kw_nonstop                         "nonstop"
+kw_nonstop                          "nonstop"
+kw_function                         "function"
 time_func                           "time"
+log_func                            "doit"
+error_func                          "hollycow"
 
 if                                  "if"
 while                               "while"
@@ -54,52 +77,58 @@ logic_or                            "||"
 input_oper                          "<<"
 output_oper                         ">>"
 
+comment                             "%%"[^"/n"]*"/n"
+
 %%
-{string_literal} 				    {printf(" STRING_LITERAL ");}
-{url_literal}                       {printf(" URLSTRING ");}
-{int_literal}					    {printf(" INT_LITERAL ");}
-{float_literal}                     {printf(" FLOAT_LITERAL ");}
+{string_literal} 				    {LOG(" STRING_LITERAL ");}
+{url_literal}                       {LOG(" URLSTRING ");}
+{int_literal}					    {LOG(" INT_LITERAL ");}
+{float_literal}                     {LOG(" FLOAT_LITERAL ");}
 
-{kw_nonstop}                        {printf(" NONSTOP ");}
-{time_func}                         {printf(" TIME_FUNC ");}
+{kw_nonstop}                        {LOG(" NONSTOP ");}
+{time_func}                         {LOG(" TIME_FUNC ");}
+{log_func}                          {LOG(" LOG_FUNC ");}
+{error_func}                        {LOG(" ERROR_FUNC ");}
 
-{switches}                          {printf(" SWITCH ");}
-{type}                              {printf(" TYPE ");}
-{if}                                {printf(" IF ");}
-{else}                              {printf(" ELSE ");}
-{for}                               {printf(" FOR ");}
-{while}                             {printf(" WHILE ");}
+{kw_function}                       {LOG(" KW_FUNCTION ");}
+{switches}                          {LOG(" SWITCH ");}
+{type}                              {LOG(" TYPE ");}
+{if}                                {LOG(" IF ");}
+{else}                              {LOG(" ELSE ");}
+{for}                               {LOG(" FOR ");}
+{while}                             {LOG(" WHILE ");}
 
-{rp}							    {printf(" RP ");}
-{lp}                          		{printf(" LP ");}
-{lcb}                               {printf(" LCB ");}
-{rcb}                               {printf(" RCP ");}
-{lsb}                               {printf(" LSB ");}
-{rsb}                               {printf(" RSP ");}
+{rp}							    {LOG(" RP ");}
+{lp}                          		{LOG(" LP ");}
+{lcb}                               {LOG(" LCB ");}
+{rcb}                               {LOG(" RCP ");}
+{lsb}                               {LOG(" LSB ");}
+{rsb}                               {LOG(" RSP ");}
 
-{logic_equal}                       {printf(" LEQ ");}
-{logic_not}                         {printf(" LNOT ");}
-{logic_and}                         {printf(" LAND ");}
-{logic_or}                          {printf(" LOR ");}
+{logic_equal}                       {LOG(" LEQ ");}
+{logic_not}                         {LOG(" LNOT ");}
+{logic_and}                         {LOG(" LAND ");}
+{logic_or}                          {LOG(" LOR ");}
 
-{lt}                                {printf(" LT ");}
-{gt}                                {printf(" GT ");}
-{lte}                               {printf(" LTE ");}
-{gte}                               {printf(" GTE ");}
+{lt}                                {LOG(" LT ");}
+{gt}                                {LOG(" GT ");}
+{lte}                               {LOG(" LTE ");}
+{gte}                               {LOG(" GTE ");}
 
-{input_oper}                        {printf(" INN ");}
-{output_oper}                       {printf(" OUT ");}
+{input_oper}                        {LOG(" INN ");}
+{output_oper}                       {LOG(" OUT ");}
 
-{plus}								{printf(" PLUS ");}
-{minus}								{printf(" MINUS ");}
-{asterix}							{printf(" MUL ");}
-{division}						    {printf(" DIV ");}
-{equal}								{printf(" = ");}
-{colon}                             {printf(" SEMICOLON ");}
+{plus}								{LOG(" PLUS ");}
+{minus}								{LOG(" MINUS ");}
+{asterix}							{LOG(" MUL ");}
+{division}						    {LOG(" DIV ");}
+{equal}								{LOG(" EQ ");}
+{colon}                             {LOG(" SEMICOLON ");}
 
-{identifier}                        {printf(" IDENTIFIER<"); ECHO; printf(">");}
+{identifier}                        {LOG(" IDENTIFIER<"); ECHO; LOG(">");}
+{comment}                           {;}
 {space}                             {;}
-.                                   {perror("Could not parse this thing!");}
+.^/n                                {LOG("WHAt/n");}
 %%
 
 int main() {

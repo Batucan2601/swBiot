@@ -11,7 +11,7 @@
 <var_declaration_list> ::= <var_declaration> | <var_declaration_list> <var_declaration>
 <var_declaration> ::= <type> <identifier>;
 
-<funct_declaration> ::= function <identifier>(<var_declaration_list>) returns <type> { <stmt_list> };
+<funct_declaration> ::= function <identifier>(<var_declaration_list>) <type> { <stmt_list> };
 
 <assign_stmt> ::= <special_assign> | <conventional_assign>
     <special_assign> ::= <input_assign> | <output_assign>
@@ -69,8 +69,8 @@
 
     <time_expr> ::= time()
 
-    <func_call_expr> ::= <identifier>(<parameter_list>);
-    <parameter_list> ::= <parameter>; | <parameter_list> <parameter>,
+    <func_call_expr> ::= <identifier>(<parameter_list>?)
+    <parameter_list> ::= <parameter> | <parameter_list> <parameter>,
     <parameter> ::= <identifier>
 
 
