@@ -1,5 +1,16 @@
 STRING akilli = "adam";
 
-function functionname(arguments) returns returntype {
-    return identifier;
-}
+function fibonacci(INT n) INT {
+    INT a = 1;
+    INT b = 1;
+
+    for (INT x = 0; x < n - 2: x = x + 1) {
+        INT c = a;
+        a = b + a;
+        b = a;
+    }
+
+    return a;
+};
+
+
