@@ -1,0 +1,5 @@
+STRING akilli = "adam";
+
+function functionname(arguments) returns returntype {
+    return identifier;
+}

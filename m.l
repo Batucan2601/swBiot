@@ -2,7 +2,7 @@
     #include <stdlib.h>
     #include <stdio.h>
 %}
-space                               [ /t]+
+space                               [ /t/n]+
 digit                               [0-9]
 sign                                [-+]
 letter                              [A-Za-z]+?
@@ -10,7 +10,7 @@ letter                              [A-Za-z]+?
 string_literal 			            "\""[^\"]*"\""
 url_literal                         "'"[^']*"'"
 
-identifier                          {letter}({letter}|{digit})*
+identifier                          {letter}({letter}|{digit}|"_")*
 
 type                                "INT"|"BOOL"|"SENSOR"|"URL"|"FLOAT"|"STRING"
 switches                            "SW1"|"SW2"|"SW3"|"SW4"|"SW5"|"SW6"|"SW7"|"SW8"|"SW9"|"SW10"
@@ -21,6 +21,8 @@ int_literal                         {sign}?{digit}+
 
 kw_nonstop                         "nonstop"
 time_func                           "time"
+log_func                            "doit"
+error_func                          "hollycow"
 
 if                                  "if"
 while                               "while"
@@ -54,6 +56,8 @@ logic_or                            "||"
 input_oper                          "<<"
 output_oper                         ">>"
 
+comment                             "%%"[^"/n"]*"/n"
+
 %%
 {string_literal} 				    {printf(" STRING_LITERAL ");}
 {url_literal}                       {printf(" URLSTRING ");}
@@ -62,6 +66,8 @@ output_oper                         ">>"
 
 {kw_nonstop}                        {printf(" NONSTOP ");}
 {time_func}                         {printf(" TIME_FUNC ");}
+{log_func}                          {printf(" LOG_FUNC ");}
+{error_func}                        {printf(" ERROR_FUNC ");}
 
 {switches}                          {printf(" SWITCH ");}
 {type}                              {printf(" TYPE ");}
@@ -98,8 +104,9 @@ output_oper                         ">>"
 {colon}                             {printf(" SEMICOLON ");}
 
 {identifier}                        {printf(" IDENTIFIER<"); ECHO; printf(">");}
+{comment}                           {;}
 {space}                             {;}
-.                                   {perror("Could not parse this thing!");}
+.                                   {;}
 %%
 
 int main() {
