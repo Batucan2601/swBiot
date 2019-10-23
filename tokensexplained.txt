@@ -1,0 +1,22 @@
+<program> : core of the program, every program starts with this token.
+<stmt_list> : list of the statements in the program.
+<stmt> : componnents of statment list.
+<matched_stmt> : a statement which has the same number of if and else's.
+<matched_stmt_list> : list of matched_stmt's.
+<unmatched_stmt> : a statement which has different number of if and else's.
+<unmatched_stmt_list> : list of unmatched_stmt's.
+<declaration_stmt> : a statment where you declare an identifier with a type or declare a function.
+<var_declaration_list> : list of declarations in terms of variables.
+<var_declaration> : specific declaration type of statements.
+<funct_declaration> : specific declaration type of functions.
+<assign_stmt> : statements for assigning using << >> = operator.
+<special_assign> : assignments for << >>.
+<input_assign> : input assignments via <<.
+<output_assign> : output assignemnt via >>.
+<conventional_assign> : assigning variable using = operator.
+<init_stmt> : statement for initialising statements.
+<matched_if_stmt> : an if statement when there will be equal if and else's in the statments.
+<unmatched_if_stmt> : an if statement when there will not be equal if and else's in the statments.
+<loop_stmt> : for loop statements such as while and for.
+<while_stmt> : while statement like in fundemental languages.
+<for_stmt> : for statement like in fundemental languages.
