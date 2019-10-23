@@ -7,11 +7,15 @@
 <unmatched_stmt> ::= <unmatched_if_stmt>
 <unmatched_stmt_list> ::=  <unmatched_stmt>; | <unmatched_stmt_list> <unmatched_stmt>;
 
-<declaration_stmt> ::= <type> <identifier>
+<declaration_stmt> ::= <funct_declaration> | <var_declaration>
+<var_declaration_list> ::= <var_declaration> | <var_declaration_list> <var_declaration>
+<var_declaration> ::= <type> <identifier>;
+
+<funct_declaration> ::= function <identifier>(<var_declaration_list>) returns <type> { <stmt_list> };
 
 <assign_stmt> ::= <special_assign> | <conventional_assign>
     <special_assign> ::= <input_assign> | <output_assign>
-    <input_assign> ::= <identifier> << <identifier> | <identifier> << <sensor_expr>
+    <input_assign> ::= <identifier> << <identifier> | <identifier> << <sensor_expr> | nonstop <identifier> << <identifier>
     <output_assign> ::= <identifier> >> <expr> | <switch_type> >> <logic_expr>
     <conventional_assign> ::= <identifier> = <expr>
 
@@ -35,7 +39,7 @@
                   |for (<init_stmt>?; <logic_expr>?; <arithmetic_expr>;) {<stmt_list>}
 
 
-<expr> ::= <logic_expr>| <arithmetic_expr>| <url_expr> | <sensor_expr> | <literal_expr> | <time_expr>
+<expr> ::= <logic_expr>| <arithmetic_expr>| <url_expr> | <sensor_expr> | <literal_expr> | <time_expr> | <func_call_expr>
     <logic_expr> ::= <logic_operand> <binlog_operator> <logic_operand> | <unilog_operator>? <logic_operand>
     <binlog_operator> ::=  == | & | "|"
     <unilog_operator> ::=  !
@@ -64,6 +68,11 @@
         <sign> ::= - | +
 
     <time_expr> ::= time()
+
+    <func_call_expr> ::= <identifier>(<parameter_list>);
+    <parameter_list> ::= <parameter>; | <parameter_list> <parameter>,
+    <parameter> ::= <identifier>
+
 
 <identifier> ::= <letter> <digits>?
 
