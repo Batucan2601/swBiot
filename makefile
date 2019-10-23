@@ -1,5 +1,5 @@
 all:
 	lex m.l 
 	cc *.c 
-	./a.out < boring.l
+	./a.out < boring.swb
 	cls
