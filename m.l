@@ -2,25 +2,8 @@
     #include <stdlib.h>
     #include <stdio.h>
 
-    //    /*
-    #define _AMGUARD 
-    // */
+    #define LOG(x) printf(x)
 
-    #ifdef _AMGUARD 
-        #define PRINT
-    #else  
-        #define TOKEN
-    #endif
-
-    #ifdef PRINT 
-        #define LOG(x): printf(x)
-    #else  
-        #define LOG(x): return x
-    #endif
-
-    #ifdef TOKEN 
-        #define LOG(x): return x
-    #endif
 %}
 space                               [ /t/n]+
 digit                               [0-9]
@@ -38,6 +21,7 @@ sensors                             "HUM"|"TEMP"|"AIRPRES"|"AIRQUAL"|"LIGHT"|"SO
 
 float_literal                       {sign}?{digit}*(\.)?{digit}+
 int_literal                         {sign}?{digit}+
+bool_literal                        "true"|"false"
 
 kw_nonstop                          "nonstop"
 kw_function                         "function"
@@ -77,13 +61,16 @@ logic_or                            "||"
 input_oper                          "<<"
 output_oper                         ">>"
 
-comment                             "%%"[^"/n"]*"/n"
+comment                             "%%"[^%%]*"%%"
 
 %%
+{comment}                           {;}
+
 {string_literal} 				    {LOG(" STRING_LITERAL ");}
 {url_literal}                       {LOG(" URLSTRING ");}
 {int_literal}					    {LOG(" INT_LITERAL ");}
 {float_literal}                     {LOG(" FLOAT_LITERAL ");}
+{bool_literal}                     {LOG(" BOOL_LITERAL ");}
 
 {kw_nonstop}                        {LOG(" NONSTOP ");}
 {time_func}                         {LOG(" TIME_FUNC ");}
@@ -126,9 +113,8 @@ comment                             "%%"[^"/n"]*"/n"
 {colon}                             {LOG(" SEMICOLON ");}
 
 {identifier}                        {LOG(" IDENTIFIER<"); ECHO; LOG(">");}
-{comment}                           {;}
 {space}                             {;}
-.^/n                                {LOG("WHAt/n");}
+.^"/n"                              {LOG("\n=============================================================\n");}
 %%
 
 int main() {

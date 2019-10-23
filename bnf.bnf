@@ -2,7 +2,7 @@
 <stmt_list> ::= <stmt>; | <stmt_list> <stmt>;
 <stmt> ::= <matched_stmt> | <unmatched_stmt>
 
-<matched_stmt> ::= <declaration_stmt> | <assign_stmt> | <init_stmt> | <matched_if_stmt> | <loop_stmt>
+<matched_stmt> ::= <declaration_stmt> | <assign_stmt> | <init_stmt> | <matched_if_stmt> | <loop_stmt> | <func_call_stmt>
 <matched_stmt_list> ::=  <matched_stmt>; | <matched_stmt_list> <matched_stmt>;
 <unmatched_stmt> ::= <unmatched_if_stmt>
 <unmatched_stmt_list> ::=  <unmatched_stmt>; | <unmatched_stmt_list> <unmatched_stmt>;
@@ -16,7 +16,7 @@
 <assign_stmt> ::= <special_assign> | <conventional_assign>
     <special_assign> ::= <input_assign> | <output_assign>
     <input_assign> ::= <identifier> << <identifier> | <identifier> << <sensor_expr> | nonstop <identifier> << <identifier>
-    <output_assign> ::= <identifier> >> <expr> | <switch_type> >> <logic_expr>
+    <output_assign> ::= <identifier> >> <expr> | <switch_type> >> <logic_expr> | nonstop <identifier> >> <expr>
     <conventional_assign> ::= <identifier> = <expr>
 
 <init_stmt> ::= <type> <assign_stmt>
@@ -38,6 +38,7 @@
     <for_stmt> ::= for (<init_stmt>?; <logic_expr>?; <arithmetic_expr>;) <stmt> 
                   |for (<init_stmt>?; <logic_expr>?; <arithmetic_expr>;) {<stmt_list>}
 
+<func_call_stmt> ::= <func_expression>
 
 <expr> ::= <logic_expr>| <arithmetic_expr>| <url_expr> | <sensor_expr> | <literal_expr> | <time_expr> | <func_call_expr>
     <logic_expr> ::= <logic_operand> <binlog_operator> <logic_operand> | <unilog_operator>? <logic_operand>
@@ -71,7 +72,7 @@
 
     <func_call_expr> ::= <identifier>(<parameter_list>?)
     <parameter_list> ::= <parameter> | <parameter_list> <parameter>,
-    <parameter> ::= <identifier>
+    <parameter> ::= <identifier> | <expr>
 
 
 <identifier> ::= <letter> <digits>?
