@@ -23,7 +23,7 @@
 %token LCB
 %token RCB
 %token LSB
-%token RSB
+%token RSP
 %token LEQ
 %token LNOT
 %token LAND
@@ -43,15 +43,15 @@
 %token COLON
 %token SENSOR
 %token BOOL_LITERAL
-%token IDENTIFIER
-/* %union{
+
+%union{
 	int IntVal;
 	double DoubleVal;
 	char CharVal;
 }
 %type <CharVal> stmt_list;
 %type <CharVal> stmt;  
- {identifier}                        {LOG(" IDENTIFIER "); ECHO; LOG(">");}
+/* {identifier}                        {LOG(" IDENTIFIER "); ECHO; LOG(">");}
 {comment}                           {;}
 {space}                             {;}
 .^/n                                {LOG("WHAt/n");} */
@@ -87,8 +87,7 @@
 
     init_stmt   : type assign_stmt;
 
-    if_stmt : IF LP logic_expr RP LCB stmt_list RCB
-              | IF LP logic_expr RP LCB stmt_list RCB ELSE LCB stmt_list RCB;
+    if_stmt : IF LP boo
    
    
     loop_stmt   : WHILE_stmt 
@@ -114,7 +113,7 @@
     unilog_operator   :  LNOT
     logic_operand    : logic_expr 
 		| identifier 
-		| BOOL_LITERAL;
+		| bool_literal;
     arithmetic_expr   : art_operand add_sub term_operand 
 		| term_operand;
     term_operand   : term_operand mul_div factor_operand 
@@ -133,7 +132,13 @@
 
      sensor_expr    : SENSOR LP  arithmetic_expr RP;
 
-     
+     literal_expr    :  bool_literal  |  integer_literal  |  float_literal  |  string_literal;
+         bool_literal    : BOOL_LITERAL;
+         integer_literal    :  sign  |   digits;
+         digits    :  digit  |  digits   digit;
+         digit    : INT_LITERAL;
+         float_literal    :  FLOAT_LITERAL;
+         string_literal    : STRING_LITERAL;
  
       sign    : MINUS | PLUS;
 
@@ -145,13 +150,15 @@
      parameter    :  identifier;
 
 
-    identifier   : IDENTIFIER;  
+ identifier    :  letter   digits  | ;
 
 
  type    : TYPE;
  switch_type    : SWITCH;
     %%
     #include "lex.yy.c"
+
+    ...additional user code...
 
     main() {
       return yyparse();
