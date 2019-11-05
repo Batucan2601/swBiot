@@ -2,6 +2,7 @@
     #include <stdlib.h>
     #include <stdio.h>
 
+<<<<<<< HEAD:example.l
     //    /*
     #define _AMGUARD 
     // */
@@ -21,6 +22,10 @@
     #ifdef TOKEN 
         #define LOG(x) return x
     #endif
+=======
+    #define LOG(x) printf(x)
+
+>>>>>>> 3f35e4140cd9604ea6513ad9be4c07ad14493b91:m.l
 %}
 space                               [ /t/n]+
 digit                               [0-9]
@@ -38,6 +43,7 @@ sensors                             "HUM"|"TEMP"|"AIRPRES"|"AIRQUAL"|"LIGHT"|"SO
 
 float_literal                       {sign}?{digit}*(\.)?{digit}+
 int_literal                         {sign}?{digit}+
+bool_literal                        "true"|"false"
 
 kw_nonstop                          "nonstop"
 kw_function                         "function"
@@ -77,18 +83,25 @@ logic_or                            "||"
 input_oper                          "<<"
 output_oper                         ">>"
 
-comment                             "%%"[^"/n"]*"/n"
+comment                             "%%"[^%%]*"%%"
 
                                 ""
 
 
 
 %%
+{comment}                           {;}
+
 {string_literal} 				    {LOG(" STRING_LITERAL ");}
 {url_literal}                       {LOG(" URLSTRING ");}
 {int_literal}					    {LOG(" INT_LITERAL ");}
 {float_literal}                     {LOG(" FLOAT_LITERAL ");}
+<<<<<<< HEAD:example.l
 {bool_literal}                      {LOG(" BOOL_LITERAL";)}
+=======
+{bool_literal}                     {LOG(" BOOL_LITERAL ");}
+
+>>>>>>> 3f35e4140cd9604ea6513ad9be4c07ad14493b91:m.l
 {kw_nonstop}                        {LOG(" NONSTOP ");}
 {time_func}                         {LOG(" TIME_FUNC ");}
 {log_func}                          {LOG(" LOG_FUNC ");}
@@ -130,12 +143,15 @@ comment                             "%%"[^"/n"]*"/n"
 {semicolon}                         {LOG(" SEMICOLON ");}
 {colon}                             {LOG(" COLON ");}
 {identifier}                        {LOG(" IDENTIFIER<"); ECHO; LOG(">");}
-{comment}                           {;}
 {space}                             {;}
+<<<<<<< HEAD:example.l
 {sensors}                           {LOG("SENSOR");}
 
 {}
 .^/n                                {LOG("WHAt/n");}
+=======
+.^"/n"                              {LOG("\n=============================================================\n");}
+>>>>>>> 3f35e4140cd9604ea6513ad9be4c07ad14493b91:m.l
 %%
 
 int main() {
