@@ -70,22 +70,22 @@
 		| var_declaration;
     var_declaration_list   : var_declaration 
 		| var_declaration_list var_declaration
-    var_declaration   : type identifier;
+    var_declaration   : TYPE  IDENTIFIER;
 
-    funct_declaration   : FUNCTION identifier LP var_declaration_list RP  type RCB stmt_list LCB;
+    funct_declaration   : FUNCTION IDENTIFIER LP var_declaration_list RP  TYPE RCB stmt_list LCB;
 
     assign_stmt   : special_assign 
 		| conventional_assign;
     special_assign   : input_assign 
 		| output_assign;
-    input_assign   : identifier INN identifier 
-		| identifier INN sensor_expr 
-		| NONSTOP identifier INN identifier;
-    output_assign   : identifier OUT expr 
+    input_assign   : IDENTIFIER INN IDENTIFIER 
+		| IDENTIFIER INN sensor_expr 
+		| NONSTOP IDENTIFIER INN IDENTIFIER;
+    output_assign   : IDENTIFIER OUT expr 
 		| switch_type OUT logic_expr;
-    conventional_assign   : identifier EQ expr;
+    conventional_assign   : IDENTIFIER EQ expr;
 
-    init_stmt   : type assign_stmt;
+    init_stmt   : TYPE assign_stmt;
 
     if_stmt : IF LP logic_expr RP LCB stmt_list RCB
               | IF LP logic_expr RP LCB stmt_list RCB ELSE LCB stmt_list RCB;
@@ -101,55 +101,49 @@
     expr   : logic_expr 
 		| arithmetic_expr
 		| url_expr 
-		| sensor_expr 
-		| literal_expr 
+		| sensor_expr  
 		| time_expr 
 		| func_call_expr;
 
-    logic_expr   : logic_operand binlog_operator logic_operand 
-		| unilog_operator  |  logic_operand
+    logic_expr   : 
+    
+    logic_operand binlog_operator logic_operand 
+		| unilog_operator  |  logic_operand 
     binlog_operator   :  LEQ 
 		| LAND
 		| LOR;
     unilog_operator   :  LNOT
     logic_operand    : logic_expr 
-		| identifier 
+		| IDENTIFIER 
 		| BOOL_LITERAL;
-    arithmetic_expr   : art_operand add_sub term_operand 
-		| term_operand;
-    term_operand   : term_operand mul_div factor_operand 
-		| factor_operand;
-    factor_operand   : LP  arithmetic_expr RP 
-		| identifier;
-    add_sub   : PLUS | MINUS;
-    mul_div   : MUL | DIV;
 
-    art_operand   :  integer_literal  
-		|  float_literal  
-		|  string_literal  
-		|  identifier;
+
+    arithmetic_expr   : art_operand operations term_operand 
+		| term_operand;
+    factor_operand   : LP  arithmetic_expr RP 
+		| IDENTIFIER;
+    operations   : PLUS | MINUS | MUL | DIV;
+
+    art_operand   :  INT_LITERAL  
+		|  FLOAT_LITERAL  
+		|  STRING_LITERAL  
+		|  IDENTIFIER;
 
      url_expr    : URLSTRING;
 
      sensor_expr    : SENSOR LP  arithmetic_expr RP;
-
-     
  
       sign    : MINUS | PLUS;
 
      time_expr    : TIME_FUNC LP  RP  ;
 
-     func_call_expr    :  identifier  LP  parameter_list  |  RP  ;
+     func_call_expr    :  IDENTIFIER  LP  parameter_list  |  RP  ;
      parameter_list    :  parameter  
 		|  parameter_list   parameter COLON ;
-     parameter    :  identifier;
+     parameter    :  IDENTIFIER;
 
 
-    identifier   : IDENTIFIER;  
-
-
- type    : TYPE;
- switch_type    : SWITCH;
+     switch_type    : SWITCH;
     %%
     #include "lex.yy.c"
 
