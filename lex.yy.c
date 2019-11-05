@@ -609,12 +609,22 @@ char *yytext;
     // */
 
     #ifdef _AMGUARD 
-    #define LOG(x): printf("x")
+        #define PRINT
     #else  
-    #define LOG(x): return x
+        #define TOKEN
     #endif
-#line 617 "lex.yy.c"
-#line 618 "lex.yy.c"
+
+    #ifdef PRINT 
+        #define LOG(x) printf(x)
+    #else  
+        #define LOG(x) return x
+    #endif
+
+    #ifdef TOKEN 
+        #define LOG(x) return x
+    #endif
+#line 627 "lex.yy.c"
+#line 628 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -831,9 +841,9 @@ YY_DECL
 		}
 
 	{
-#line 72 "m.l"
+#line 82 "m.l"
 
-#line 837 "lex.yy.c"
+#line 847 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -893,204 +903,204 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 73 "m.l"
-{LOG(  STRING_LITERAL  );}
+#line 83 "m.l"
+{LOG(" STRING_LITERAL ");}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 74 "m.l"
-{LOG(  URLSTRING  );}
+#line 84 "m.l"
+{LOG(" URLSTRING ");}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 75 "m.l"
-{LOG(  INT_LITERAL  );}
+#line 85 "m.l"
+{LOG(" INT_LITERAL ");}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 76 "m.l"
-{LOG(  FLOAT_LITERAL  );}
+#line 86 "m.l"
+{LOG(" FLOAT_LITERAL ");}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 78 "m.l"
-{LOG(  NONSTOP  );}
+#line 88 "m.l"
+{LOG(" NONSTOP ");}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 79 "m.l"
-{LOG(  TIME_FUNC  );}
+#line 89 "m.l"
+{LOG(" TIME_FUNC ");}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 80 "m.l"
-{LOG(  LOG_FUNC  );}
+#line 90 "m.l"
+{LOG(" LOG_FUNC ");}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 81 "m.l"
-{LOG(  ERROR_FUNC  );}
+#line 91 "m.l"
+{LOG(" ERROR_FUNC ");}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 83 "m.l"
-{LOG(  KW_FUNCTION  );}
+#line 93 "m.l"
+{LOG(" KW_FUNCTION ");}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 84 "m.l"
-{LOG(  SWITCH  );}
+#line 94 "m.l"
+{LOG(" SWITCH ");}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 85 "m.l"
-{LOG(  TYPE  );}
+#line 95 "m.l"
+{LOG(" TYPE ");}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 86 "m.l"
-{LOG(  IF  );}
+#line 96 "m.l"
+{LOG(" IF ");}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 87 "m.l"
-{LOG(  ELSE  );}
+#line 97 "m.l"
+{LOG(" ELSE ");}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 88 "m.l"
-{LOG(  FOR  );}
+#line 98 "m.l"
+{LOG(" FOR ");}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 89 "m.l"
-{LOG(  WHILE  );}
+#line 99 "m.l"
+{LOG(" WHILE ");}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 91 "m.l"
-{LOG(  RP  );}
+#line 101 "m.l"
+{LOG(" RP ");}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 92 "m.l"
-{LOG(  LP  );}
+#line 102 "m.l"
+{LOG(" LP ");}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 93 "m.l"
-{LOG(  LCB  );}
+#line 103 "m.l"
+{LOG(" LCB ");}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 94 "m.l"
-{LOG(  RCP  );}
+#line 104 "m.l"
+{LOG(" RCP ");}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 95 "m.l"
-{LOG(  LSB  );}
+#line 105 "m.l"
+{LOG(" LSB ");}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 96 "m.l"
-{LOG(  RSP  );}
+#line 106 "m.l"
+{LOG(" RSP ");}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 98 "m.l"
-{LOG(  LEQ  );}
+#line 108 "m.l"
+{LOG(" LEQ ");}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 99 "m.l"
-{LOG(  LNOT  );}
+#line 109 "m.l"
+{LOG(" LNOT ");}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 100 "m.l"
-{LOG(  LAND  );}
+#line 110 "m.l"
+{LOG(" LAND ");}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 101 "m.l"
-{LOG(  LOR  );}
+#line 111 "m.l"
+{LOG(" LOR ");}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 103 "m.l"
-{LOG(  LT  );}
+#line 113 "m.l"
+{LOG(" LT ");}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 104 "m.l"
-{LOG(  GT  );}
+#line 114 "m.l"
+{LOG(" GT ");}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 105 "m.l"
-{LOG(  LTE  );}
+#line 115 "m.l"
+{LOG(" LTE ");}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 106 "m.l"
-{LOG(  GTE  );}
+#line 116 "m.l"
+{LOG(" GTE ");}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 108 "m.l"
-{LOG(  INN  );}
+#line 118 "m.l"
+{LOG(" INN ");}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 109 "m.l"
-{LOG(  OUT  );}
+#line 119 "m.l"
+{LOG(" OUT ");}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 111 "m.l"
-{LOG(  PLUS  );}
+#line 121 "m.l"
+{LOG(" PLUS ");}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 112 "m.l"
-{LOG(  MINUS  );}
+#line 122 "m.l"
+{LOG(" MINUS ");}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 113 "m.l"
-{LOG(  MUL  );}
+#line 123 "m.l"
+{LOG(" MUL ");}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 114 "m.l"
-{LOG(  DIV  );}
+#line 124 "m.l"
+{LOG(" DIV ");}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 115 "m.l"
-{LOG(  =  );}
+#line 125 "m.l"
+{LOG(" EQ ");}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 116 "m.l"
-{LOG(  SEMICOLON  );}
+#line 126 "m.l"
+{LOG(" SEMICOLON ");}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 118 "m.l"
-{LOG(  IDENTIFIER );}
+#line 128 "m.l"
+{LOG(" IDENTIFIER<"); ECHO; LOG(">");}
 	YY_BREAK
 case 39:
 /* rule 39 can match eol */
 YY_RULE_SETUP
-#line 119 "m.l"
+#line 129 "m.l"
 {;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 120 "m.l"
+#line 130 "m.l"
 {;}
 	YY_BREAK
 case 41:
@@ -1098,15 +1108,15 @@ case 41:
 (yy_c_buf_p) = yy_cp = yy_bp + 2;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 121 "m.l"
-{LOG( UNDEFINED );}
+#line 131 "m.l"
+{LOG("WHAt/n");}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 122 "m.l"
+#line 132 "m.l"
 ECHO;
 	YY_BREAK
-#line 1110 "lex.yy.c"
+#line 1120 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2111,7 +2121,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 122 "m.l"
+#line 132 "m.l"
 
 
 int main() {
@@ -2127,3 +2137,4 @@ int yywrap() {
 void yyerror(const char* text) {
     printf("%s", text);
 }
+

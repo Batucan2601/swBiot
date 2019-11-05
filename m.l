@@ -13,13 +13,13 @@
     #endif
 
     #ifdef PRINT 
-        #define LOG(x): printf(x)
+        #define LOG(x) printf(x)
     #else  
-        #define LOG(x): return x
+        #define LOG(x) return x
     #endif
 
     #ifdef TOKEN 
-        #define LOG(x): return x
+        #define LOG(x) return x
     #endif
 %}
 space                               [ /t/n]+
