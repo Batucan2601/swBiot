@@ -1,5 +1,6 @@
 all:
-	lex m.l 
-	cc *.c 
-	./a.out < boring.kp
+	lex example.l
+	yacc example.y
+	gcc -o example y.tab.c
+	./example
 	cls

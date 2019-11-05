@@ -29,7 +29,7 @@ letter                              [A-Za-z]+?
 
 string_literal 			            "\""[^\"]*"\""
 url_literal                         "'"[^']*"'"
-
+bool_literal                        "true"|"false"
 identifier                          {letter}({letter}|{digit}|"_")*
 
 type                                "INT"|"BOOL"|"SENSOR"|"URL"|"FLOAT"|"STRING"
@@ -49,7 +49,7 @@ if                                  "if"
 while                               "while"
 else                                "else"
 for                                 "for"
-
+function                            "function"
 lp                                  "("
 rp                                  ")"
 lcb                                 "{"
@@ -62,8 +62,8 @@ minus                               "-"
 asterix                             "*"
 division                            "/"
 equal                               "="
-colon                               ";"
-
+semicolon                           ";"
+colon                               ","
 lt                                  "<"
 gt                                  ">"
 lte                                 "<="
@@ -79,18 +79,22 @@ output_oper                         ">>"
 
 comment                             "%%"[^"/n"]*"/n"
 
+                                ""
+
+
+
 %%
 {string_literal} 				    {LOG(" STRING_LITERAL ");}
 {url_literal}                       {LOG(" URLSTRING ");}
 {int_literal}					    {LOG(" INT_LITERAL ");}
 {float_literal}                     {LOG(" FLOAT_LITERAL ");}
-
+{bool_literal}                      {LOG(" BOOL_LITERAL";)}
 {kw_nonstop}                        {LOG(" NONSTOP ");}
 {time_func}                         {LOG(" TIME_FUNC ");}
 {log_func}                          {LOG(" LOG_FUNC ");}
 {error_func}                        {LOG(" ERROR_FUNC ");}
 
-{kw_function}                       {LOG(" KW_FUNCTION ");}
+{kw_function}                       {LOG(" FUNCTION ");}
 {switches}                          {LOG(" SWITCH ");}
 {type}                              {LOG(" TYPE ");}
 {if}                                {LOG(" IF ");}
@@ -123,11 +127,14 @@ comment                             "%%"[^"/n"]*"/n"
 {asterix}							{LOG(" MUL ");}
 {division}						    {LOG(" DIV ");}
 {equal}								{LOG(" EQ ");}
-{colon}                             {LOG(" SEMICOLON ");}
-
+{semicolon}                         {LOG(" SEMICOLON ");}
+{colon}                             {LOG(" COLON ");}
 {identifier}                        {LOG(" IDENTIFIER<"); ECHO; LOG(">");}
 {comment}                           {;}
 {space}                             {;}
+{sensors}                           {LOG("SENSOR");}
+
+{}
 .^/n                                {LOG("WHAt/n");}
 %%
 
