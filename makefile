@@ -1,6 +1,6 @@
-all:
-	lex example.l
-	yacc example.y
-	gcc -o example y.tab.c
-	./example
-	cls
+parser: y.tab.c
+	gcc -o parser y.tab.c
+y.tab.c: parser.y lex.yy.c
+	yacc parser.y
+lex.yy.c: scanner.l
+	lex scanner.l

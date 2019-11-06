@@ -1,12 +1,17 @@
+%{
+    int yylex();
+    int yyerror(const char *s);
+    #include <stdio.h>
+%}
 
-%token letter                             
+
+%start program                       
 %token STRING_LITERAL
 %token URLSTRING 
-%start program
-%nonassoc IF
-%nonassoc ELSE
 %token INT_LITERAL 
-%token FLOAT_LITERAL 
+%token FLOAT_LITERAL
+%token EMPTY 
+%token LOGIC
 %token NONSTOP
 %token TIME_FUNC
 %token LOG_FUNC
@@ -44,6 +49,19 @@
 %token SENSOR
 %token BOOL_LITERAL
 %token IDENTIFIER
+%token URL_LITERAL
+
+
+%nonassoc IF
+%nonassoc ELSE
+
+
+
+%left  PLUS  MINUS
+%left  MUL  DIV
+%left LOR  LAND
+%left LNOT 
+
 /* %union{
 	int IntVal;
 	double DoubleVal;
@@ -57,9 +75,11 @@
 .^/n                                {LOG("WHAt/n");} */
 %%
     
-    program  : stmt_list;
-    stmt_list  : stmt 
-		| stmt_list stmt;
+    program  : stmt_list { printf( "is a valid swBiot Program\n");};
+
+
+    stmt_list  : stmt SEMICOLON
+		| stmt_list stmt SEMICOLON;
     stmt   : declaration_stmt 
 		| assign_stmt
 		| init_stmt 
@@ -74,7 +94,7 @@
 
     funct_declaration   : FUNCTION IDENTIFIER LP var_declaration_list RP  TYPE RCB stmt_list LCB;
 
-    assign_stmt   : special_assign 
+    /* assign_stmt   : special_assign 
 		| conventional_assign;
     special_assign   : input_assign 
 		| output_assign;
@@ -82,18 +102,25 @@
 		| IDENTIFIER INN sensor_expr 
 		| NONSTOP IDENTIFIER INN IDENTIFIER;
     output_assign   : IDENTIFIER OUT expr 
-		| switch_type OUT logic_expr;
-    conventional_assign   : IDENTIFIER EQ expr;
+		| SWITCH OUT logic_expr;
+    conventional_assign   : IDENTIFIER EQ expr; */
+    
+
+     assign_stmt : SWITCH assign_op BOOL_LITERAL
+    |   IDENTIFIER assign_op expr
+
+    assign_op : EQ | INN | OUT;
 
     init_stmt   : TYPE assign_stmt;
+
 
     if_stmt : IF LP logic_expr RP LCB stmt_list RCB
               | IF LP logic_expr RP LCB stmt_list RCB ELSE LCB stmt_list RCB;
    
    
-    loop_stmt   : WHILE_stmt 
+    loop_stmt   : while_stmt 
 		    | for_stmt; 
-    WHILE_stmt   : WHILE LP logic_expr RP   stmt 
+    while_stmt   : WHILE LP logic_expr RP   stmt 
 		    |  WHILE LP logic_expr RP    LCB  stmt_list RCB  ; 
     for_stmt   : FOR LP init_stmt SEMICOLON  logic_expr SEMICOLON  arithmetic_expr SEMICOLON  RP   stmt;
       
@@ -105,9 +132,18 @@
 		| time_expr 
 		| func_call_expr;
 
-    logic_expr   : 
+
+    url_expr : URL_LITERAL
+
+    logic_expr :  BOOL_LITERAL
+    | LOGIC IDENTIFIER 
+    | LNOT LP logic_expr RP
+    | LP logic_expr logic_operand logic_expr RP;
     
-    logic_operand binlog_operator logic_operand 
+
+    logic_operand :  LEQ | LOR | LAND;
+    
+    /* logic_operand binlog_operator logic_operand 
 		| unilog_operator  |  logic_operand 
     binlog_operator   :  LEQ 
 		| LAND
@@ -115,40 +151,39 @@
     unilog_operator   :  LNOT
     logic_operand    : logic_expr 
 		| IDENTIFIER 
-		| BOOL_LITERAL;
+		| BOOL_LITERAL; */
 
 
-    arithmetic_expr   : art_operand operations term_operand 
-		| term_operand;
-    factor_operand   : LP  arithmetic_expr RP 
-		| IDENTIFIER;
-    operations   : PLUS | MINUS | MUL | DIV;
+    arithmetic_expr   : LP art_operand operations art_operand RP
+		| art_operand;
+  
+    operations : PLUS | MINUS | MUL | DIV;
 
     art_operand   :  INT_LITERAL  
 		|  FLOAT_LITERAL  
 		|  STRING_LITERAL  
 		|  IDENTIFIER;
 
-     url_expr    : URLSTRING;
-
-     sensor_expr    : SENSOR LP  arithmetic_expr RP;
+    sensor_expr    : SENSOR LP  arithmetic_expr RP;
  
-      sign    : MINUS | PLUS;
+     /* sign    : MINUS | PLUS; */
 
      time_expr    : TIME_FUNC LP  RP  ;
 
-     func_call_expr    :  IDENTIFIER  LP  parameter_list  |  RP  ;
-     parameter_list    :  parameter  
-		|  parameter_list   parameter COLON ;
-     parameter    :  IDENTIFIER;
-
-
-     switch_type    : SWITCH;
+     func_call_expr    :  IDENTIFIER  LP  parameter_list  RP;
+     
+     parameter_list    :  IDENTIFIER  
+		 |  parameter_list   IDENTIFIER  COLON
+     |  EMPTY;
+    
     %%
-    #include "lex.yy.c"
+#include "lex.yy.c"
 
-    main() {
-      return yyparse();
-    }
-    int yyerror( char *s { fprintf( stderr, "%s\n", s); }
+
+
+
+int main() {
+    return yyparse();
+}
+int yyerror( const char *s ) { printf("is not in swBiot: %s\n", s); }
     
