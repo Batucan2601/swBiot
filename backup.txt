@@ -1,3 +1,22 @@
+%nonassoc IF
+%nonassoc ELSE
+
+
+
+%left  PLUS  MINUS
+%left  MUL  DIV
+%left LOR  LAND
+%left LNOT 
+
+
+
+
+
+
+
+
+
+
 
 
     stmt_list  : stmt 

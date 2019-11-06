@@ -1,7 +1,7 @@
 %{
     #include <stdlib.h>
     #include <stdio.h>
-    #include "y.tab.c"
+    int line = 1;
 %}
 space                               [ /t/n]+
 digit                               [0-9]
@@ -13,6 +13,7 @@ url_literal                         "'"[^']*"'"
 bool_literal                        "true"|"false"
 identifier                          {letter}({letter}|{digit}|"_")*
 
+
 type                                "INT"|"BOOL"|"SENSOR"|"URL"|"FLOAT"|"STRING"
 switches                            "SW1"|"SW2"|"SW3"|"SW4"|"SW5"|"SW6"|"SW7"|"SW8"|"SW9"|"SW10"
 sensors                             "HUM"|"TEMP"|"AIRPRES"|"AIRQUAL"|"LIGHT"|"SOUND"
@@ -20,11 +21,13 @@ sensors                             "HUM"|"TEMP"|"AIRPRES"|"AIRQUAL"|"LIGHT"|"SO
 float_literal                       {sign}?{digit}*(\.)?{digit}+
 int_literal                         {sign}?{digit}+
 
-kw_nonstop                          "nonstop"
 kw_function                         "function"
+
+connect_func                        "connect"
+disconnect_func                     "disconnect"
 time_func                           "time"
-log_func                            "doit"
-error_func                          "hollycow"
+log_func                            "print"
+error_func                          "error"
 
 if                                  "if"
 while                               "while"
@@ -44,13 +47,14 @@ asterix                             "*"
 division                            "/"
 equal                               "="
 semicolon                           ";"
-colon                               ","
+comma                               ","
 lt                                  "<"
 gt                                  ">"
 lte                                 "<="
 gte                                 ">="
 
 logic_equal                         "=="
+logic_notequal                      "!="
 logic_not                           "!"
 logic_and                           "&&"
 logic_or                            "||"
@@ -58,7 +62,7 @@ logic_or                            "||"
 input_oper                          "<<"
 output_oper                         ">>"
 
-comment                             "%%"[^"/n"]*"/n"
+comment                             "%%"[^"%%"]*"%%"
 
     
 
@@ -70,10 +74,11 @@ comment                             "%%"[^"/n"]*"/n"
 {int_literal}					    {return INT_LITERAL;}
 {float_literal}                     {return FLOAT_LITERAL;}
 {bool_literal}                      {return BOOL_LITERAL;}
-{kw_nonstop}                        {return NONSTOP;}
 {time_func}                         {return TIME_FUNC;}
 {log_func}                          {return LOG_FUNC;}
 {error_func}                        {return ERROR_FUNC;}
+{connect_func}                      {return CONNECT_FUNC;}
+{disconnect_func}                   {return DISCONNECT_FUNC;}
 
 {kw_function}                       {return FUNCTION;}
 {switches}                          {return SWITCH;}
@@ -90,6 +95,7 @@ comment                             "%%"[^"/n"]*"/n"
 {lsb}                               {return LSB;}
 {rsb}                               {return RSB;}
 
+{logic_notequal}                    {return LNEQ;}
 {logic_equal}                       {return LEQ;}
 {logic_not}                         {return LNOT;}
 {logic_and}                         {return LAND;}
@@ -109,12 +115,13 @@ comment                             "%%"[^"/n"]*"/n"
 {division}						    {return DIV;}
 {equal}								{return EQ;}
 {semicolon}                         {return SEMICOLON;}
-{colon}                             {return COLON;}
+{comma}                             {return COMMA;}
 {sensors}                           {return SENSOR;}
 
 {identifier}                        {return IDENTIFIER;}
 {comment}                           {;}
 {space}                             {;}
+\n                                  {line++;}
 .^\n                                {ECHO;}
 %%
 
@@ -125,7 +132,7 @@ comment                             "%%"[^"/n"]*"/n"
 } */
 
 int yywrap() {
-    return 0;
+    return 1;
 }
 
 /* void yyerror(const char* text) {

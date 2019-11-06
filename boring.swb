@@ -23,86 +23,61 @@ URL telephoneUrl = 'localhost:8080';
 
 %% There is no main function  %%
 %% This is for checking the return code from telephone %%
-function check(Url telephoneUrl)
-{
-    %% Declare variables %%
-    INT control;
-    BOOL exit = false;
 
-    %% Main while loop %%
-    while (!exit)
-    {
-        %% This statement gets the contents of an url as an integer. %%
-        control << telephoneUrl;
 
-        %% Checks all signals. %%
-        if (control == CONTROL_OPEN_GARAGE)
-        {
-            %% Enables the switch. %%
-            true >> SW1;
-        } 
-        else if (control == CONTROL_CLOSE_GARAGE)
-        {
-            false >> SW1;
-        } 
-        else if (control == CONTROL_OPEN_DOOR_1)
-        {
-            true >> SW2;
-        } 
-        else if (control == CONTROL_CLOSE_DOOR_1)
-        {
-            false >> SW2;
-        } 
-        else if (control == CONTROL_OPEN_LIGHTS)
-        {
-            true >> SW3;
-            true >> SW4;
-            true >> SW5;
-            true >> SW6;
-        } 
-        else if (control == CONTROL_CLOSE_LIGHTS) 
-        {
-            false >> SW3;
-            false >> SW4;
-            false >> SW5;
-            false >> SW6;
-        }
-        else if (control == CONTROL_SHUTDOWN) 
-        {
-            false >> SW3;
-            false >> SW4;
-            false >> SW5;
-            false >> SW6;
-        }
-        else if (controll == CONTROL_GETSENSOR_INFO) {
-            %% Temporary variable declerations   %%
-            INT humidity;
-            INT temperature;
-            INT light;
 
-            %% read the sensor data from different sensors %%
-            humidity << HUM(0);
-            temperature << TEMP(0);
-            light << LIGHT(0);
-
-            %% Outputs the sensor data %%
-            %% nonstop keyword denotes the operation as asyncronus %%
-            %% In other words, flow of the program is not interrupted for sending the data. %%
-            nonstop telephoneUrl >> humidity;
-            nonstop telephoneUrl >> temperature;
-            nonstop telephoneUrl >> light;
-        }
-        else
-        {
-            %% Prints out the error message. %%
-            doit("There is a parsing error.");
-
-            %% Gives out the error and exits from the program. %%
-            %% Gives out the time as an error message %%
-            hollycow(time());
-        };
-    };
-};
+function check(URL telephoneUrl) INT {INT a;};
 
 %% Function call, calls our function. %%
-checkAll(telephoneUrl);
+
+cakk();
+
+if (a == b && !(true))
+{
+    INT a = adam() + 1;
+};
+
+URL gh = 'helo';
+call();
+
+SW1 << true;
+
+adam = 5;
+url << "sup dude" + 34 ;
+
+connect(url);
+disconnect(url);
+
+connect(url);
+
+time();
+
+adim = "bombar";
+
+print("benim admim " + adim);
+
+error('localhost.com');
+
+url >> myInt;
+
+if (adam == true) {
+    INT ad = 56;
+
+    ad = 5;
+    HUM[111] >> ad; %% Small bilkent easter egg please dont cut points %%
+};
+
+if (adam == true) {
+    INT ad = 56;
+}
+else {
+    INT ad = 56;
+};
+
+while (true) {
+    print("samali");
+};
+
+for (INT i = 4; true; i = i + 1) {
+    INT b;
+};
