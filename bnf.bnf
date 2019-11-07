@@ -1,82 +1,92 @@
-<program> ::= <stmt_list>
-<stmt_list> ::= <stmt>; | <stmt_list> <stmt>;
-<stmt> ::= <matched_stmt> | <unmatched_stmt>
+<program>  ::= <stmt_list> 
 
-<matched_stmt> ::= <declaration_stmt> | <assign_stmt> | <init_stmt> | <matched_if_stmt> | <loop_stmt> | <func_call_stmt>
-<matched_stmt_list> ::=  <matched_stmt>; | <matched_stmt_list> <matched_stmt>;
-<unmatched_stmt> ::= <unmatched_if_stmt>
-<unmatched_stmt_list> ::=  <unmatched_stmt>; | <unmatched_stmt_list> <unmatched_stmt>;
 
-<declaration_stmt> ::= <funct_declaration> | <var_declaration>
-<var_declaration_list> ::= <var_declaration> | <var_declaration_list> <var_declaration>
-<var_declaration> ::= <type> <identifier>;
+    <stmt_list>  ::=  <stmt> SEMICOLON
+		              | <stmt_list stmt> SEMICOLON  
 
-<funct_declaration> ::= function <identifier>(<var_declaration_list>) <type> { <stmt_list> };
 
-<assign_stmt> ::= <special_assign> | <conventional_assign>
-    <special_assign> ::= <input_assign> | <output_assign>
-    <input_assign> ::= <identifier> << <identifier> | <identifier> << <sensor_expr> | nonstop <identifier> << <identifier>
-    <output_assign> ::= <identifier> >> <expr> | <switch_type> >> <logic_expr> | nonstop <identifier> >> <expr>
-    <conventional_assign> ::= <identifier> = <expr>
+    <stmt>   ::= <declaration_stmt>
+		| <assign_stmt>
+		| <init_stmt>
+		| <if_stmt>
+		| <loop_stmt>
+    | <expr> 
 
-<init_stmt> ::= <type> <assign_stmt>
+    
+    <declaration_stmt>   ::= <funct_declaration> 
+		| <var_declaration> 
+    <var_declaration_list>   ::= <var_declaration> 
+		| <var_declaration_list> <var_declaration>
+    <var_declaration>   ::= TYPE  IDENTIFIER 
 
-<matched_if_stmt> ::= if (<logic_expr>) <matched_stmt> else <matched_stmt> 
-                    | if (<logic_expr>) {<matched_stmt_list>} else {<matched_stmt_list>}
-                    | if (<logic_expr>) <matched_stmt> else <matched_stmt>
-                    | if (<logic_expr>) {<matched_stmt_list>} else <matched_stmt> 
+    <funct_declaration>   ::= FUNCTION IDENTIFIER LP <var_declaration_list> RP  TYPE LCB <stmt_list> RETURN <expr> SEMICOLON RCB
+                          | FUNCTION IDENTIFIER LP var_declaration_list RP LCB stmt_list RCB 
+    
 
-<unmatched_if_stmt> ::= if (<logic_expr>) <matched_stmt> else <unmatched_stmt> 
-                    | if (<logic_expr>) {<matched_stmt_list>} else {<unmatched_stmt_list>}
-                    | if (<logic_expr>) <matched_stmt> else <unmatched_stmt>
-                    | if (<logic_expr>) {<matched_stmt_list>} else <unmatched_stmt>
-                    | if (<logic_expr>) <stmt>
-                    | if (<logic_expr>) {<stmt_list>}
+     <assign_stmt> ::= SWITCH INN <logic_expr>
+                | IDENTIFIER EQ <expr>
+                | IDENTIFIER OUT IDENTIFIER
+                | IDENTIFIER INN <expr>
+                | <sensor_expr> OUT IDENTIFIER
+
+
+    <init_stmt>   ::= TYPE <assign_stmt> 
+
+
+    <if_stmt> ::= IF LP <logic_expr> RP LCB <stmt_list> RCB
+              | IF LP <logic_expr> RP LCB <stmt_list> RCB ELSE LCB <stmt_list> RCB 
    
-<loop_stmt> ::= <while_stmt> | <for_stmt> 
-    <while_stmt> ::= while (<logic_expr>) <stmt> |  while (<logic_expr>) {<stmt_list>} 
-    <for_stmt> ::= for (<init_stmt>?; <logic_expr>?; <arithmetic_expr>;) <stmt> 
-                  |for (<init_stmt>?; <logic_expr>?; <arithmetic_expr>;) {<stmt_list>}
+   
+    <loop_stmt>   ::= <while_stmt> 
+		    | <for_stmt>  
+    <while_stmt>   ::= WHILE LP <logic_expr> RP   <stmt. 
+		    |  WHILE LP <logic_expr> RP    LCB  <stmt_list> RCB    
+    <for_stmt>   ::= FOR LP <init_stmt> SEMICOLON  <logic_expr> SEMICOLON  <stmt>  RP LCB <stmt_list> RCB
+    | FOR LP <init_stmt> SEMICOLON <logic_expr> SEMICOLON  <stmt>  RP <stmt> 
+      
 
-<func_call_stmt> ::= <func_expression>
-
-<expr> ::= <logic_expr>| <arithmetic_expr>| <url_expr> | <sensor_expr> | <literal_expr> | <time_expr> | <func_call_expr>
-    <logic_expr> ::= <logic_operand> <binlog_operator> <logic_operand> | <unilog_operator>? <logic_operand>
-    <binlog_operator> ::=  == | & | "|"
-    <unilog_operator> ::=  !
-    <logic_operand>  ::= <logic_expr> | <identifier> | <bool_literal>
-    <arithmetic_expr> ::= <art_operand> <add_sub> <term_operand> | <term_operand>
-    <term_operand> ::= <term_operand> <mul_div> <factor_operand> | <factor_operand>
-    <factor_operand> ::= (<arithmetic_expr>) | <identifier>
-    <add_sub> ::= + | -
-    <mul_div> ::= * | /
-
-    <art_operand> ::= <integer_literal> | <float_literal> | <string_literal> | <identifier>
-
-    <url_expr> ::= '<chars>'
-
-    <sensor_expr> ::= TEMP(<arithmetic_expr>) | HUM(<arithmetic_expr>) | AIRPRES(<arithmetic_expr>) | AIRQUAL(<arithmetic_expr>) | LIGHT(<arithmetic_expr>) | SOUND(<arithmetic_expr>)
-
-    <literal_expr> ::= <bool_literal> | <integer_literal> | <float_literal> | <string_literal>
-        <bool_literal> ::= true | false
-        <integer_literal> ::= <sign>? <digits>
-        <digits> ::= <digit> | <digits> <digit>
-        <digit> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0
-        <float_literal> ::= <sign>? <digits> . <digits>
-        <string_literal> ::= "<chars>"
-        <chars> ::= <letter> <chars> | <digit> <chars> | <letter> | <digit>
-        <letter> ::= [A-Za-z]+? # TODO #
-        <sign> ::= - | +
-
-    <time_expr> ::= time()
-
-    <func_call_expr> ::= <identifier>(<parameter_list>?)
-    <parameter_list> ::= <parameter> | <parameter_list> <parameter>,
-    <parameter> ::= <identifier> | <expr>
+    <expr>   ::= <arithmetic_expr> | <url_expr> 
 
 
-<identifier> ::= <letter> <digits>?
+    <url_expr> ::= URLSTRING 
+
+    <logic_expr> ::=  <logic_expr> LAND <logic_expr>
+          | <logic_expr> LOR <logic_expr>
+          | <logic_expr> LEQ <logic_expr>
+          | <logic_expr> LNEQ <logic_expr>
+          | <logic_expr> LT <logic_expr>
+          | <logic_expr> LTE <logic_expr>
+          | <logic_expr> GT <logic_expr>
+          | <logic_expr> GTE <logic_expr>
+    | LNOT LP <logic_expr> RP
+    | BOOL_LITERAL
+    | INT_LITERAL
+    | FLOAT_LITERAL
+    | STRING_LITERAL
+    | IDENTIFIER 
+
+    <arithmetic_expr>   ::= <arithmetic_expr> PLUS <arithmetic_expr>
+    | <arithmetic_expr> MINUS <arithmetic_expr>
+    | <arithmetic_expr> MUL <arithmetic_expr>
+    | <arithmetic_expr> DIV <arithmetic_expr>
+    | <logic_expr>
+    | <func_call_expr>
+    | <sensor_expr>
+    | <arithmetic_expr> RP
+  
 
 
-<type> ::= INT | BOOL | FLOAT | URL | SENSOR | STRING
-<switch_type> ::= SW1 | SW2 | SW3 | SW4 | SW5 | SW6 | SW7 | SW8 | SW9 | SW10
+    <sensor_expr>    ::= SENSOR LSB  <arithmetic_expr> RSB
+
+
+
+     <func_call_expr>    ::=  IDENTIFIER  LP  <parameter_list>  RP
+                         | IDENTIFIER  LP RP
+                         | DISCONNECT_FUNC LP IDENTIFIER RP
+                         | CONNECT_FUNC LP IDENTIFIER RP
+                         | LOG_FUNC LP <expr> RP
+                         | ERROR_FUNC LP <expr> RP
+                         | TIME_FUNC LP RP      
+     
+     <parameter_list>    :  <expr>
+		 |   <expr> COMMA <parameter_list> 
