@@ -1,0 +1,110 @@
+%%
+
+    Duty of the program:
+        First Function: The calculateAverageHumidity which is declared in the global
+        scope calculates the average value from all humidity sensors. If number 
+        of humidity sensors is less then 1 then it gives an error and stops 
+        execution. If not it returns the average humidity value. But we divide 
+        it by MAX_HUMIDITY to have humidity between 0 and 1.
+        
+        Second Function: sendValueToUrlWithDelay function sends a value to an 
+        url and waits for and response, if the response is exceeds the desired 
+        time then it gives an error. Else, it dosconnects.
+
+        Third Function: writeGivenValueToSwitches() takes an url sends a CODE_GET_INTEGER.
+        This code means to get an integer from the url. After that it turns on the switches
+        by number. For example, if number 3 is recieved then first 3 switches are opened.
+
+
+%%
+
+FLOAT MAX_HUMIDITY = 100;
+INT RESPONSE_SUCCESS = 64;
+INT RESPONSE_ERROR = 128;
+INT CODE_GET_INTEGER = 124;
+FLOAT MAX_DELAY = 1024;
+
+INT HUM_SENSOR_COUNT = 5;
+
+URL localhost = 'localhost/dev.mbp.0012';
+
+function calculateAverageHumidity(INT sensorcount) FLOAT {
+    FLOAT avgHumidity = 0;
+    if (sensorcount > 0) {
+        FLOAT temp;
+        for (INT i = 0; i < sensorcount; i = i + 1) {
+            HUM[i] >> temp;
+            avgHumidity = avgHumidity + temp;
+        };
+    }
+    else {
+        error("Error! No humidity sensors are on board");
+    };
+
+    return avgHumidity;
+};
+
+function sendValueToUrlWithDelay(STRING value, URL url, FLOAT maxDelay) {
+    connect(url);
+
+    FLOAT startingTime = time();
+    INT response;
+    BOOL flag = true;
+
+    url << value;
+
+    url >> response;
+
+    while (response != RESPONSE_SUCCESS && flag) {
+        FLOAT currentTime = time();
+
+        FLOAT delay = currentTime - startingTime;
+
+        if (delay > maxDelay || response == RESPONSE_ERROR) {
+            flag = false;
+        };
+        url << value;
+        url >> response;
+    };
+
+    if (flag) {
+        error("Error! Time exceeded while waiting for response!");
+    };
+
+    disconnect(url);
+};
+
+function writeGivenValueToSwitches(URL url) {
+    connect(url);
+
+    INT response;
+
+    url << CODE_GET_INTEGER;
+
+    url >> response;
+
+    SW1 << response <= 1;
+    SW2 << response <= 2;
+    SW3 << response <= 3;
+    SW4 << response <= 4;
+    SW5 << response <= 5;
+    SW6 << response <= 6;
+    SW7 << response <= 7;
+    SW8 << response <= 8;
+    SW9 << response <= 9;
+    SW10 << response <= 10;
+
+    disconnect(url);
+};
+
+%% variable decleration and assignment %%
+FLOAT avg = calculateAverageHumidity(HUM_SENSOR_COUNT) ./ MAX_HUMIDITY;
+print("The average humidity is " + avg + "!");
+
+%% function call with parameters as expressions %%
+sendValueToUrlWithDelay("{'average_humidity':" + avg + "}", localhost, MAX_DELAY);
+print("Average humidity transmitted to mobile phone with success!");
+
+%% function call with parameters as identifiers %%
+writeGivenValueToSwitches(localhost);
+print("Value from url written to switches!");
