@@ -1,86 +1,110 @@
-%% Decleration of constant variables, %%
-%% our language does not includes const variables. %%
-INT CONTROL_OPEN_GARAGE = 0;
-INT CONTROL_CLOSE_GARAGE = 1;
-INT CONTROL_OPEN_DOOR_1 = 2;
-INT CONTROL_CLOSE_DOOR_1 = 3;
-INT CONTROL_OPEN_LIGHTS = 4;
-INT CONTROL_CLOSE_LIGHTS = 5;
-INT CONTROL_GETSENSOR_INFO = 6;
-INT CONTROL_SHUTDOWN = -1;
+%%
 
-%% There are 10 switches but for our demo we used only 6 of them. %%
-%% SW1 -> garage door %%
-%% SW2 -> open door %%
-%% SW3 -> light 1 %%
-%% SW4 -> light 2 %%
-%% SW5 -> light 3 %%
-%% SW6 -> light 4 %%
+    Duty of the program:
+        First Function: The calculateAverageHumidity which is declared in the global
+        scope calculates the average value from all humidity sensors. If number 
+        of humidity sensors is less then 1 then it gives an error and stops 
+        execution. If not it returns the average humidity value. But we divide 
+        it by MAX_HUMIDITY to have humidity between 0 and 1.
+        
+        Second Function: sendValueToUrlWithDelay function sends a value to an 
+        url and waits for and response, if the response is exceeds the desired 
+        time then it gives an error. Else, it dosconnects.
+
+        Third Function: writeGivenValueToSwitches() takes an url sends a CODE_GET_INTEGER.
+        This code means to get an integer from the url. After that it turns on the switches
+        by number. For example, if number 3 is recieved then first 3 switches are opened.
 
 
-%% Address of the phone (located on localhost for demonstrative purposes) %%
-URL telephoneUrl = 'localhost:8080';
+%%
 
-%% There is no main function  %%
-%% This is for checking the return code from telephone %%
+FLOAT MAX_HUMIDITY = 100;
+INT RESPONSE_SUCCESS = 64;
+INT RESPONSE_ERROR = 128;
+INT CODE_GET_INTEGER = 124;
+FLOAT MAX_DELAY = 1024;
 
+INT HUM_SENSOR_COUNT = 5;
 
-function check(URL telephoneUrl) STRING
-{
-    INT a; 
-    return a + 5;
+URL localhost = 'localhost/dev.mbp.0012';
+
+function calculateAverageHumidity(INT sensorcount) FLOAT {
+    FLOAT avgHumidity = 0;
+    if (sensorcount > 0) {
+        FLOAT temp;
+        for (INT i = 0; i < sensorcount; i = i + 1) {
+            HUM[i] >> temp;
+            avgHumidity = avgHumidity + temp;
+        };
+    }
+    else {
+        error("Error! No humidity sensors are on board");
+    };
+
+    return avgHumidity;
 };
 
-%% Function call, calls our function. %%
+function sendValueToUrlWithDelay(STRING value, URL url, FLOAT maxDelay) {
+    connect(url);
 
-cakk();
+    FLOAT startingTime = time();
+    INT response;
+    BOOL flag = true;
 
-if (a == b && !(true))
-{
-    INT a = adam() + 1;
+    url << value;
+
+    url >> response;
+
+    while (response != RESPONSE_SUCCESS && flag) {
+        FLOAT currentTime = time();
+
+        FLOAT delay = currentTime - startingTime;
+
+        if (delay > maxDelay || response == RESPONSE_ERROR) {
+            flag = false;
+        };
+        url << value;
+        url >> response;
+    };
+
+    if (flag) {
+        error("Error! Time exceeded while waiting for response!");
+    };
+
+    disconnect(url);
 };
 
-URL gh = 'helo';
-call();
+function writeGivenValueToSwitches(URL url) {
+    connect(url);
 
-SW1 << true;
+    INT response;
 
-adam = 5;
-url << "sup dude" + 34 ;
+    url << CODE_GET_INTEGER;
 
-connect(url);
-disconnect(url);
+    url >> response;
 
-connect(url);
+    SW1 << response <= 1;
+    SW2 << response <= 2;
+    SW3 << response <= 3;
+    SW4 << response <= 4;
+    SW5 << response <= 5;
+    SW6 << response <= 6;
+    SW7 << response <= 7;
+    SW8 << response <= 8;
+    SW9 << response <= 9;
+    SW10 << response <= 10;
 
-time();
-
-adim = "bombar";
-
-print("benim admim " + adim);
-
-error('localhost.com');
-
-url >> myInt;
-
-if (adam < "fefe") {
-    INT ad = 56;
-
-    ad = 5;
-    HUM[111] >> ad; %% Small bilkent easter egg please dont cut points %%
+    disconnect(url);
 };
 
-if (adam == true) {
-    INT ad = 56;
-}
-else {
-    INT ad = 56;
-};
+%% variable decleration and assignment %%
+FLOAT avg = calculateAverageHumidity(HUM_SENSOR_COUNT) ./ MAX_HUMIDITY;
+print("The average humidity is " + avg + "!");
 
-while (true) {
-    print("samali");
-};
+%% function call with parameters as expressions %%
+sendValueToUrlWithDelay("{'average_humidity':" + avg + "}", localhost, MAX_DELAY);
+print("Average humidity transmitted to mobile phone with success!");
 
-for (INT i = 4; true; i = i + 1) {
-    INT a;
-};
+%% function call with parameters as identifiers %%
+writeGivenValueToSwitches(localhost);
+print("Value from url written to switches!");

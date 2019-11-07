@@ -60,29 +60,16 @@
 %nonassoc ELSE
 
 
-%left PLUS LAND LT GT
-%left MINUS LOR LTE GTE
-%left MUL LEQ
-%left DIV LNEQ
+%left PLUS MINUS LAND LT GT
+%left MUL DIV LOR LTE GTE
+%left LEQ LNEQ
 
-
-/* %union{
-	int IntVal;
-	double DoubleVal;
-	char CharVal;
-}
-%type <CharVal> stmt_list;
-%type <CharVal> stmt;  
- {identifier}                        {LOG(" IDENTIFIER "); ECHO; LOG(">");}
-{comment}                           {;}
-{space}                             {;}
-.^/n                                {LOG("WHAt/n");} */
 %%
     
     program  : stmt_list { printf( "is a valid swBiot Program\n");};
 
 
-    stmt_list  :  stmt SEMICOLON
+    stmt_list  :   stmt SEMICOLON
 		              | stmt_list stmt SEMICOLON  ;
 
 
@@ -97,7 +84,7 @@
     declaration_stmt   : funct_declaration 
 		| var_declaration;
     var_declaration_list   : var_declaration 
-		| var_declaration_list var_declaration
+		| var_declaration_list COMMA var_declaration
     var_declaration   : TYPE  IDENTIFIER;
 
     funct_declaration   : FUNCTION IDENTIFIER LP var_declaration_list RP  TYPE LCB stmt_list RETURN expr SEMICOLON RCB
@@ -150,8 +137,8 @@
 
     arithmetic_expr   : arithmetic_expr PLUS arithmetic_expr
     | arithmetic_expr MINUS arithmetic_expr
-    | arithmetic_expr MUL arithmetic_expr
     | arithmetic_expr DIV arithmetic_expr
+    | arithmetic_expr MUL arithmetic_expr
     | logic_expr
     | func_call_expr
     | sensor_expr

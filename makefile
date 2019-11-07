@@ -1,6 +1,5 @@
-parser: y.tab.c
-	gcc -o parser y.tab.c
-y.tab.c: parser.y lex.yy.c
+all: 
 	yacc parser.y
-lex.yy.c: scanner.l
 	lex scanner.l
+	gcc -o parser y.tab.c
+	./parser<boring.swb

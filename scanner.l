@@ -45,7 +45,7 @@ rsb                                 "]"
 plus                                "+"
 minus                               "-"
 asterix                             "*"
-division                            "/"
+division                            "./"
 equal                               "="
 semicolon                           ";"
 comma                               ","
@@ -90,6 +90,15 @@ comment                             "%%"[^"%%"]*"%%"
 {for}                               {return FOR;}
 {while}                             {return WHILE;}
 
+{plus}								{return PLUS;}
+{minus}								{return MINUS;}
+{asterix}							{return MUL;}
+{division}						    {printf("salama"); return DIV; }
+{equal}								{return EQ;}
+{semicolon}                         {return SEMICOLON;}
+{comma}                             {return COMMA;}
+{sensors}                           {return SENSOR;}
+
 {rp}							    {return RP;}
 {lp}                          		{return LP;}
 {lcb}                               {return LCB;}
@@ -110,15 +119,6 @@ comment                             "%%"[^"%%"]*"%%"
 
 {input_oper}                        {return INN;}
 {output_oper}                       {return OUT;}
-
-{plus}								{return PLUS;}
-{minus}								{return MINUS;}
-{asterix}							{return MUL;}
-{division}						    {return DIV;}
-{equal}								{return EQ;}
-{semicolon}                         {return SEMICOLON;}
-{comma}                             {return COMMA;}
-{sensors}                           {return SENSOR;}
 
 {identifier}                        {return IDENTIFIER;}
 {comment}                           {;}
