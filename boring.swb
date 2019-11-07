@@ -25,8 +25,11 @@ URL telephoneUrl = 'localhost:8080';
 %% This is for checking the return code from telephone %%
 
 
-
-function check(URL telephoneUrl) INT {INT a;};
+function check(URL telephoneUrl) STRING
+{
+    INT a; 
+    return a + 5;
+};
 
 %% Function call, calls our function. %%
 
@@ -60,7 +63,7 @@ error('localhost.com');
 
 url >> myInt;
 
-if (adam == true) {
+if (adam < "fefe") {
     INT ad = 56;
 
     ad = 5;
@@ -79,5 +82,5 @@ while (true) {
 };
 
 for (INT i = 4; true; i = i + 1) {
-    INT b;
+    INT a;
 };

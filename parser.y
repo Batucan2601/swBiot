@@ -53,15 +53,15 @@
 %token LNEQ
 %token CONNECT_FUNC
 %token DISCONNECT_FUNC
-
+%token RETURN
 
 
 %nonassoc IF
 %nonassoc ELSE
 
 
-%left PLUS LAND
-%left MINUS LOR
+%left PLUS LAND LT GT
+%left MINUS LOR LTE GTE
 %left MUL LEQ
 %left DIV LNEQ
 
@@ -82,8 +82,8 @@
     program  : stmt_list { printf( "is a valid swBiot Program\n");};
 
 
-    stmt_list  : stmt SEMICOLON
-		| stmt_list stmt SEMICOLON;
+    stmt_list  :  stmt SEMICOLON
+		              | stmt_list stmt SEMICOLON  ;
 
 
     stmt   : declaration_stmt
@@ -100,7 +100,8 @@
 		| var_declaration_list var_declaration
     var_declaration   : TYPE  IDENTIFIER;
 
-    funct_declaration   : FUNCTION IDENTIFIER LP var_declaration_list RP  TYPE LCB stmt_list RCB;
+    funct_declaration   : FUNCTION IDENTIFIER LP var_declaration_list RP  TYPE LCB stmt_list RETURN expr SEMICOLON RCB
+                          | FUNCTION IDENTIFIER LP var_declaration_list RP LCB stmt_list RCB;
     
 
      assign_stmt : SWITCH INN logic_expr
@@ -134,8 +135,17 @@
           | logic_expr LOR logic_expr
           | logic_expr LEQ logic_expr
           | logic_expr LNEQ logic_expr
+
+          | logic_expr LT logic_expr
+          | logic_expr LTE logic_expr
+          | logic_expr GT logic_expr
+          | logic_expr GTE logic_expr
+
           | LNOT LP logic_expr RP
           | BOOL_LITERAL
+              | INT_LITERAL
+    | FLOAT_LITERAL
+    | STRING_LITERAL
           | IDENTIFIER;
 
     arithmetic_expr   : arithmetic_expr PLUS arithmetic_expr
@@ -143,9 +153,6 @@
     | arithmetic_expr MUL arithmetic_expr
     | arithmetic_expr DIV arithmetic_expr
     | logic_expr
-    | INT_LITERAL
-    | FLOAT_LITERAL
-    | STRING_LITERAL
     | func_call_expr
     | sensor_expr
     | LP arithmetic_expr RP;

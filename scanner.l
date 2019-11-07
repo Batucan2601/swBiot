@@ -22,6 +22,7 @@ float_literal                       {sign}?{digit}*(\.)?{digit}+
 int_literal                         {sign}?{digit}+
 
 kw_function                         "function"
+kw_return                           "return"
 
 connect_func                        "connect"
 disconnect_func                     "disconnect"
@@ -81,6 +82,7 @@ comment                             "%%"[^"%%"]*"%%"
 {disconnect_func}                   {return DISCONNECT_FUNC;}
 
 {kw_function}                       {return FUNCTION;}
+{kw_return}                         {return RETURN;}
 {switches}                          {return SWITCH;}
 {type}                              {return TYPE;}
 {if}                                {return IF;}
